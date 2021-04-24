@@ -26,3 +26,5 @@ yarn-debug.log*
 yarn-error.log*
 node_modules
 node_modules
+
+storage_middleware/recordingapp-311116-23739fb6e539.json
