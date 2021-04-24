@@ -1,0 +1,15 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/recordingapp-311116/user_api", "."]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/recordingapp-311116/user_api"]
+  # - name: "gcr.io/cloud-builders/gcloud"
+  #   args:
+  #     [
+  #       "run",
+  #       "deploy",
+  #       "txt-to-array-cicd",
+  #       "--region=us-central1",
+  #       "--platform=managed",
+  #       "--image=gcr.io/recordingapp-311116/user_api",
+  #     ]
