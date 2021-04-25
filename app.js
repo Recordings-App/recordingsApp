@@ -1,7 +1,7 @@
 const express = require("express");
 const middleware = require("./utils/middleware");
 const AppError = require("./utils/appError");
-const { PORT, NODE_ENV } = require("./utils/config");
+const { NODE_ENV } = require("./utils/config");
 
 const userRouter = require("./routes/userRouter");
 
@@ -19,6 +19,4 @@ app.use("/user", userRouter);
 
 app.use(middleware.errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+module.exports = app;
