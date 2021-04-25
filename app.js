@@ -1,7 +1,7 @@
 const express = require("express");
 const middleware = require("./utils/middleware");
 const AppError = require("./utils/appError");
-const { PORT } = require("./utils/config");
+const { PORT, NODE_ENV } = require("./utils/config");
 
 const userRouter = require("./routes/userRouter");
 
@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 
-if (process.env.NODE_ENV !== "production") {
+if (NODE_ENV !== "production") {
   app.use(middleware.requestLogger);
 }
 

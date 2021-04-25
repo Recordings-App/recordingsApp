@@ -255,6 +255,7 @@ const waitingUserReject = catchAsync(async (user, res) => {
 
 const deletePreviousRecordings = () => {
   //code to delete the previous recordings
+  console.log("Deleting Recordings....");
 };
 
 const createNewPaidWaitingUser = catchAsync(async (name, email, parent) => {

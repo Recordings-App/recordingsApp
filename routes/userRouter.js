@@ -1,6 +1,6 @@
 const express = require("express");
 
-const router = express.router();
+const router = express.Router();
 
 const {
   verifyJwtToken,
@@ -36,3 +36,5 @@ router.patch("/addDelete/add", addUsers);
 
 //remove Users
 router.patch("/addDelete/remove", removeUsers);
+
+module.exports = router;
