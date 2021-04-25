@@ -75,7 +75,7 @@ const googleLogin = catchAsync(async (req, res, next) => {
         } else {
           const existingUser = results[0];
 
-          const token = createToken(existingUser);
+          const token = createToken(JSON.stringify(existingUser));
           res.status(200).json({
             status: "success",
             token,
@@ -86,7 +86,7 @@ const googleLogin = catchAsync(async (req, res, next) => {
 });
 
 const tempLogin = catchAsync(async (req, res, next) => {
-  const { email } = req.body;
+  const { name, email } = req.body;
   if (!email) {
     return next(new AppError("User not logged in.", 403));
   }
@@ -101,7 +101,7 @@ const tempLogin = catchAsync(async (req, res, next) => {
     } else {
       const existingUser = results[0];
 
-      const token = createToken(existingUser);
+      const token = createToken(JSON.stringify(existingUser));
       res.status(200).json({
         status: "success",
         token,
@@ -135,7 +135,7 @@ const createNewUnpaidUser = (name, email, res) => {
       //new User created successfully
       //send jwt with all the data;
 
-      const token = createToken(newUserData(name, email));
+      const token = createToken(JSON.stringify(newUserData(name, email)));
 
       res.status(201).json({
         status: "success",
@@ -212,7 +212,7 @@ const waitingUserAccept = catchAsync(async (user, res) => {
         } else {
           //all queries successfull=> send updated jwt to the waiting user
           user.permission = "normalUser";
-          const token = createToken(user);
+          const token = createToken(JSON.stringify(user));
 
           res.status(200).json({
             status: "success",
@@ -265,7 +265,7 @@ const waitingUserReject = catchAsync(async (user, res) => {
           user.type = "unpaid";
           user.permission = "userAdmin";
           user.renewedAt = null;
-          const token = createToken(user);
+          const token = createToken(JSON.stringify(user));
 
           res.status(200).json({
             status: "success",
@@ -409,7 +409,7 @@ const addUsers = catchAsync(async (req, res, next) => {
       throw new AppError("Cannot Update Parent", err.code);
     } else {
       req.jwtPayload.allowedUserList = newList;
-      const token = createToken(req.jwtPayload);
+      const token = createToken(JSON.stringify(req.jwtPayload));
 
       res.status(200).json({
         status: "success",
@@ -432,7 +432,7 @@ const removeUsers = catchAsync(async (req, res, next) => {
     newList.splice(idx, 1);
   }
   req.jwtPayload.allowedUserList = newList;
-  const token = createToken(req.jwtPayload);
+  const token = createToken(JSON.stringify(req.jwtPayload));
 
   res.status(200).json({
     status: "success",
