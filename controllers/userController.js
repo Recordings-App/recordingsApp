@@ -3,24 +3,11 @@ const bcrypt = require(`bcryptjs`);
 const mysql = require(`mysql`);
 const { OAuth2Client } = require("google-auth-library");
 
-const {
-  DB_USER,
-  DB_PASSWORD,
-  DB_NAME,
-  INSTANCE_CONNECTION_NAME,
-  CLIENT_ID,
-  JWT_SECRET,
-  JWT_EXPIRES_IN,
-} = require("../utils/config");
+const { CLIENT_ID, JWT_SECRET, JWT_EXPIRES_IN } = require("../utils/config");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
-const pool = mysql.createPool({
-  user: DB_USER,
-  password: DB_PASSWORD,
-  database: DB_NAME,
-  socketPath: `/cloudsql/${INSTANCE_CONNECTION_NAME}`,
-});
+const pool = require("../database/db");
 
 const client = new OAuth2Client(CLIENT_ID);
 
@@ -75,7 +62,7 @@ const googleLogin = catchAsync(async (req, res, next) => {
         } else {
           const existingUser = results[0];
 
-          const token = createToken(JSON.stringify(existingUser));
+          const token = createToken(JSON.parse(JSON.stringify(existingUser)));
           res.status(200).json({
             status: "success",
             token,
@@ -101,7 +88,7 @@ const tempLogin = catchAsync(async (req, res, next) => {
     } else {
       const existingUser = results[0];
 
-      const token = createToken(JSON.stringify(existingUser));
+      const token = createToken(JSON.parse(JSON.stringify(existingUser)));
       res.status(200).json({
         status: "success",
         token,
@@ -135,7 +122,7 @@ const createNewUnpaidUser = (name, email, res) => {
       //new User created successfully
       //send jwt with all the data;
 
-      const token = createToken(JSON.stringify(newUserData(name, email)));
+      const token = createToken(newUserData(name, email));
 
       res.status(201).json({
         status: "success",
