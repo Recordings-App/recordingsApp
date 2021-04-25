@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "google-auth-library": "^7.0.4",
     "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "util": "^0.12.3"
   }
 }
