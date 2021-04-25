@@ -11,10 +11,13 @@ const {
   checkPassword,
   addUsers,
   removeUsers,
+  tempLogin,
 } = require("../controllers/userController");
 
 //Login
 router.post("/login", googleLogin);
+
+router.post("/tempLogin", tempLogin);
 
 //Check JWT token at every request
 router.use(verifyJwtToken);

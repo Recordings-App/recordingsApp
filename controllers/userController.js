@@ -11,7 +11,7 @@ const {
   CLIENT_ID,
   JWT_SECRET,
   JWT_EXPIRES_IN,
-} = require("/../utils/config");
+} = require("../utils/config");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -83,6 +83,31 @@ const googleLogin = catchAsync(async (req, res, next) => {
         }
       });
     });
+});
+
+const tempLogin = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  if (!email) {
+    return next(new AppError("User not logged in.", 403));
+  }
+
+  //Request Google API
+
+  //Query the Database
+  const query = `SELECT A.*, B.name AS 'parentName' FROM users A,users B WHERE A.parent = B.email AND A.email= ?`;
+  pool.query(query, [email], async (err, results) => {
+    if (!results[0]) {
+      createNewUnpaidUser(name, email, res);
+    } else {
+      const existingUser = results[0];
+
+      const token = createToken(existingUser);
+      res.status(200).json({
+        status: "success",
+        token,
+      });
+    }
+  });
 });
 
 const newUserData = (name, email) => {
@@ -462,4 +487,5 @@ module.exports = {
   checkPassword,
   addUsers,
   removeUsers,
+  tempLogin,
 };
