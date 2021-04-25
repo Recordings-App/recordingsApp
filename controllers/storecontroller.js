@@ -20,7 +20,7 @@ exports.new_record = catchAsnc( async (req,res,next) => {
     res.status(200).json({
         status:"success",
         upload_url:url,
-        waring:"url is valid for only 10 minutes so upload fastly!!!"
+        warning:"url is valid for only 10 minutes so upload fastly!!!"
     });
 });
 
@@ -38,7 +38,7 @@ exports.get_url = catchAsnc( async (req,res,next) => {
     res.status(200).json({
         status:"success",
         read_url:url,
-        waring: "url is valid for only 1 hour"
+        warning: "url is valid for only 1 hour"
     });
 });
 
