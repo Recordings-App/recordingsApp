@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
-
+const NODE_ENV = process.env.NODE_ENV;
 const DB_USER = process.env.DB_USER;
 const DB_NAME = process.env.DB_NAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
@@ -16,6 +16,7 @@ const SQL_DATABASE = process.env.SQL_DATABASE;
 // const JWT_COOKIE_EXPIRES_IN = process.env.JWT_COOKIE_EXPIRES_IN;
 
 module.exports = {
+  NODE_ENV,
   PORT,
   DB_USER,
   DB_NAME,

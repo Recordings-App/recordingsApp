@@ -1,17 +1,6 @@
 const AppError = require("../utils/appError");
 const config = require("./config");
 
-const requestLogger = (request, response, next) => {
-  console.log("request method: " + request.method);
-  console.log("request path: " + request.path);
-  console.log("request body: ");
-  console.log(request.body);
-  console.log("--------------------------------------------------");
-  next();
-};
-const unknownEndpoint = (req, res, next) => {
-  return next(new AppError("Unknown endpoint", 404));
-};
 const showError = (err) => {
   console.log("--------------------------------------------------");
   console.log(err);
@@ -25,11 +14,13 @@ const handleDuplicateKeyDB = (err) => {
   return new AppError(message, 400);
 };
 
-const handleJWTError = () =>
-  new AppError("Invalid token. Please log in again!", 401);
+const handleJWTError = () => {
+  return new AppError("Invalid token. Please log in again!", 401);
+};
 
-const handleJWTExpiredError = () =>
-  new AppError("Your token has expired! Please log in again.", 401);
+const handleJWTExpiredError = () => {
+  return new AppError("Your token has expired! Please log in again.", 401);
+};
 
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
@@ -81,9 +72,4 @@ const errorHandler = (err, req, res, next) => {
   }
 };
 
-module.exports = {
-  requestLogger,
-  unknownEndpoint,
-  errorHandler,
-  showError,
-};
+module.exports = errorHandler;

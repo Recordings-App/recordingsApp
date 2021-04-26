@@ -1,5 +1,6 @@
 const express = require("express");
-const middleware = require("./utils/middleware");
+const requestLogger = require("./utils/requestLogger");
+const errorHandler = require("./utils/errorHandler");
 const AppError = require("./utils/appError");
 const { NODE_ENV } = require("./utils/config");
 
@@ -10,13 +11,13 @@ const app = express();
 app.use(express.json());
 
 if (NODE_ENV !== "production") {
-  app.use(middleware.requestLogger);
+  app.use(requestLogger);
 }
 
 app.get("/", (req, res) => res.status(200).send("USER API, Good to go!"));
 
 app.use("/user", userRouter);
 
-app.use(middleware.errorHandler);
+app.use(errorHandler);
 
 module.exports = app;
