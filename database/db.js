@@ -20,13 +20,7 @@ const {
 //   database: SQL_DATABASE,
 //   password: SQL_PASSWORD,
 //   socketPath: `/cloudsql/${INSTANCE_CONNECTION_NAME}`,
-//   // host: dbSocketAddr[0], // e.g. '127.0.0.1'
-//   // port: dbSocketAddr[1], // e.g. '3306'
 // };
-
-// if (INSTANCE_CONNECTION_NAME && NODE_ENV === "production") {
-//
-// }
 
 // let connection = mysql.createConnection(config);
 
