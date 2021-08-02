@@ -1,0 +1,90 @@
+swagger: "2.0"
+info:
+  title: USER_CREATION_API_GATEWAY
+  description: "gateway to manage user routes in backend."
+  version: "1.0.0"
+host: API_ID.apigateway.PROJECT_ID.cloud.goog
+schemes:
+  - {"https","http"}
+produces:
+  - application/json
+securityDefinitions:
+  your_custom_auth_id:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    # The value below should be unique
+    x-google-issuer: "issuer of the token" #it is service account email id
+    x-google-jwks_uri: "url to the public key" #it will we url to emailid location gcp
+x-google-backend:
+  address: APP_URL #will be putting after creation
+paths:
+  /singup:
+    post:
+      summary: Creates a new user.
+      security:
+        - your_custom_auth_id: []
+      parameters:
+        - in: body
+          name: user
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid or missing.
+        404:
+          description: Not found.
+  /login:
+    post:
+      summary: To login a user.
+      security:
+        - your_custom_auth_id: []
+      parameters:
+        - in: body
+          name: user
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid or missing.
+        404:
+          description: Not found.
+  /logout:
+    get:
+      description: "To signup a new user"
+      operationId: "USER_API"
+      security:
+        - your_custom_auth_id: []
+      responses:
+        200:
+          description: "Success."
+          schema:
+            type: string
+        400:
+          description: "Invalid or missing."
+        404:
+          description: "Not found"
+
+
+
+#useful link:_https://swagger.io/docs/specification/2-0/basic-structure/
+
+#example of security feild
+
+#securityDefinitions:
+#  service-1:
+#    authorizationUrl: ""
+#    flow: "implicit"
+#   type: "oauth2"
+#    x-google-issuer: "service-1@example-project-12345.iam.gserviceaccount.com"
+#    x-google-jwks_uri: "https://www.googleapis.com/robot/v1/metadata/x509/service-1@example-project-12345.iam.gserviceaccount.com"
+#  service-2:
+#    authorizationUrl: ""
+#    flow: "implicit"
+#    type: "oauth2"
+#    x-google-issuer: "service-2@example-project-12345.iam.gserviceaccount.com"
+#    x-google-jwks_uri: "https://www.googleapis.com/robot/v1/metadata/x509/service-2@example-project-12345.iam.gserviceaccount.com"

@@ -4,9 +4,7 @@ const config = require('../storage_middleware/googleconfig');
 exports.verifytoken = async (req,res,next) => {
     const secretkey= config.secretKey;
     var token= req.headers.authorization;
-    //const j=jwt.sign({emailId:"xyz@gmail.com", AllowdeduserList:['a@gmail.com','b@gmail.com']},secretkey);
-    //console.log(j);
-    //console.log(secretkey);
+    
     if(!token) {
         const err=new Error('token is invalid!!!');
         err.status=403;
