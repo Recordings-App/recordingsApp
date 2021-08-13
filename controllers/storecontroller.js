@@ -10,7 +10,7 @@ exports.new_record = catchAsnc( async (req,res,next) => {
     const user=jwt.decode(token), filename;
     //console.log(user);
     if(req.body.employee_email) {
-        filename = `${user.emailId}/${user.employee_email}/${Date.now()}.mp4`;
+        filename = `${user.emailId}/${user.employee_email}/${Date.now()}.mp3`;
     }
     else {
         filename = `${user.emailId}/my/${Date.now()}.mp3`;
