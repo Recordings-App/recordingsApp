@@ -13,7 +13,7 @@ exports.new_record = catchAsnc( async (req,res,next) => {
         filename = `${user.emailId}/${user.employee_email}/${Date.now()}.mp4`;
     }
     else {
-        filename = `${user.emailId}/my/${Date.now()}.mp4`;
+        filename = `${user.emailId}/my/${Date.now()}.mp3`;
     }
 
     console.log(filename);
