@@ -7,12 +7,14 @@ const config = require('../storage_middleware/googleconfig');
 exports.new_record = catchAsnc( async (req,res,next) => {    
     var token= req.headers.authorization.split(' ')[1];
     
-    const user=jwt.decode(token);
+    const user=jwt.decode(token), filename;
     //console.log(user);
-    if(!req.body.recordingId) {
-        return next(new appError('please include recording Id!!!', 403));
+    if(req.body.employee_email) {
+        filename = `${user.emailId}/${user.employee_email}/${Date.now()}.mp4`;
     }
-    const filename = `${user.emailId}/${Date.now()}/${req.body.recordingId}`;
+    else {
+        filename = `${user.emailId}/my/${Date.now()}.mp4`;
+    }
 
     console.log(filename);
 
@@ -47,7 +49,14 @@ exports.get_user_record = catchAsnc( async (req,res,next) => {
     var token= req.headers.authorization.split(' ')[1];
     const user=jwt.decode(token);
 
-    const files=await storageHelper.get_all_files(user.emailId);
+    let path;
+
+    if(req.query.flag==='my')
+        path=`${user.emailId}/my/`;
+    else
+        path=`${user.emailId}/`;
+
+    const files=await storageHelper.get_all_files(path);
 
     if(!files.length) {
         return next(new appError('User have no recording!!!', 404));
@@ -74,7 +83,7 @@ exports.get_employees_record = catchAsnc( async (req,res,next) => {
         var list=[];
 
         for(let i=0;i<user.AllowdeduserList.length;i++) {
-            const files= await storageHelper.get_all_files(user.AllowdeduserList[i]);
+            const files= await storageHelper.get_all_files(`${user.emailId}/${user.AllowdeduserList[i]}/`);
             var info=[];
             files.forEach(file => {
                 info.push({name:file.name})
@@ -97,7 +106,19 @@ exports.deleteFiles_of_user = catchAsnc( async(req,res,next) => {
 
     var token= req.headers.authorization.split(' ')[1];
     const user=jwt.decode(token);
-    
-    const msg=await storageHelper.delete_all_files(user.emailId);
+
+    const msg;
+
+    let path;
+
+    if(req.body.employee_email)
+        path=`${user.emailId}/${req.body.employee_email}/`;
+    else if(req.body.flag==="my")
+        path=`${user.emailId}/my/`;
+    else
+        path=`${user.emailId}/`;
+
+    let msg=await storageHelper.delete_all_files(path);
+
     res.status(200).send(msg);
 });
